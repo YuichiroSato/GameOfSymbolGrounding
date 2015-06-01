@@ -1,0 +1,5 @@
+Test suite UnitTest: RUNNING...
+Cases: 2  Tried: 2  Errors: 0  Failures: 0
+Cases: 38  Tried: 38  Errors: 0  Failures: 0
+Test suite UnitTest: PASS
+Test suite logged to: dist/test/GameOfSymbolGrounding-0.1.0.0-UnitTest.log

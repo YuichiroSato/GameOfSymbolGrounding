@@ -1,0 +1,256 @@
+
+./dist/build/autogen/Paths_GameOfSymbolGrounding.hs,992
+module Paths_GameOfSymbolGrounding Paths_GameOfSymbolGrounding0,1
+catchIO catchIO11,12
+catchIO catchIO12,13
+version version15,16
+version version16,17
+bindir, libdir, datadir, libexecdir, sysconfdir sysconfdir17,18
+bindir, libdir, datadir, libexecdir,libexecdir17,18
+bindir, libdir, datadir,datadir17,18
+bindir, libdir,libdir17,18
+bindir,bindir17,18
+bindir bindir19,20
+libdir libdir20,21
+datadir datadir21,22
+libexecdir libexecdir22,23
+sysconfdir sysconfdir23,24
+getBinDir, getLibDir, getDataDir, getLibexecDir, getSysconfDir getSysconfDir25,26
+getBinDir, getLibDir, getDataDir, getLibexecDir,getLibexecDir25,26
+getBinDir, getLibDir, getDataDir,getDataDir25,26
+getBinDir, getLibDir,getLibDir25,26
+getBinDir,getBinDir25,26
+getBinDir getBinDir26,27
+getLibDir getLibDir27,28
+getDataDir getDataDir28,29
+getLibexecDir getLibexecDir29,30
+getSysconfDir getSysconfDir30,31
+getDataFileName getDataFileName32,33
+getDataFileName getDataFileName33,34
+
+./Setup.hs,15
+main main1,2
+
+./src/Main/Setting.hs,144
+module Main.Setting Main.Setting0,1
+xSize xSize4,5
+xSize xSize5,6
+ySize ySize7,8
+ySize ySize8,9
+wSize wSize10,11
+wSize wSize11,12
+
+./src/Main/Main.hs,180
+timeInterval timeInterval7,8
+timeInterval timeInterval8,9
+main main10,11
+main main11,12
+display display20,21
+display display21,22
+timer timer26,27
+timer timer27,28
+
+./src/Data/Cell.hs,1087
+module Data.Cell Data.Cell0,1
+data Cell Cell5,6
+data Cell = Cell Cell5,6
+instance instance6,7
+data Type Type9,10
+data Type = Empty Empty9,10
+data Type = Empty | Plant Plant9,10
+data Type = Empty | Plant | Herbivore Herbivore9,10
+data Type = Empty | Plant | Herbivore | Carnivore Carnivore9,10
+data External External10,11
+data External = External External10,11
+  cellType cellType11,12
+  xy xy12,13
+  cellColor cellColor13,14
+data Internal Internal20,21
+data Internal = Internal Internal20,21
+  vx vx21,22
+  vy vy22,23
+  life life23,24
+plantCell plantCell26,27
+plantCell plantCell27,28
+herbivoreCell herbivoreCell29,30
+herbivoreCell herbivoreCell30,31
+carnivoreCell carnivoreCell32,33
+carnivoreCell carnivoreCell33,34
+randomCell randomCell35,36
+randomCell randomCell36,37
+randomType randomType48,49
+randomType randomType49,50
+randomInternal randomInternal55,56
+randomInternal randomInternal56,57
+emptyCell emptyCell62,63
+emptyCell emptyCell63,64
+move move65,66
+move move66,67
+moveTo moveTo70,71
+moveTo moveTo71,72
+
+./src/Data/World.hs,2265
+module Data.World Data.World0,1
+data Colom Colom9,10
+data Colom = Colom Colom9,10
+data World World10,11
+data World = World World10,11
+insert2Colom insert2Colom12,13
+insert2Colom insert2Colom13,14
+insert2World insert2World18,19
+insert2World insert2World19,20
+getCell getCell24,25
+getCell getCell25,26
+removeCell removeCell29,30
+removeCell removeCell30,31
+deleteCell deleteCell36,37
+deleteCell deleteCell37,38
+overrideColom overrideColom42,43
+overrideColom overrideColom43,44
+overrideCell overrideCell45,46
+overrideCell overrideCell46,47
+initialize initialize50,51
+initialize initialize51,52
+emptyWorld emptyWorld56,57
+emptyWorld emptyWorld57,58
+emptyColom emptyColom59,60
+emptyColom emptyColom60,61
+recMakeCell recMakeCell62,63
+recMakeCell recMakeCell63,64
+toMap toMap74,75
+toMap toMap75,76
+xys xys86,87
+xys xys87,88
+getCells getCells89,90
+getCells getCells90,91
+cellsSize cellsSize92,93
+cellsSize cellsSize93,94
+update update95,96
+update update96,97
+moveAnimal moveAnimal98,99
+moveAnimal moveAnimal99,100
+moveCell moveCell106,107
+moveCell moveCell107,108
+updateCells updateCells116,117
+updateCells updateCells117,118
+updateCell updateCell122,123
+updateCell updateCell123,124
+removeDuplicate removeDuplicate128,129
+removeDuplicate removeDuplicate129,130
+pickStrongest pickStrongest134,135
+pickStrongest pickStrongest135,136
+containsType containsType141,142
+containsType containsType142,143
+pickType pickType144,145
+pickType pickType145,146
+resolve resolve147,148
+resolve resolve148,149
+cell1 cell1153,154
+cell1 cell1154,155
+cell2 cell2156,157
+cell2 cell2157,158
+cell3 cell3159,160
+cell3 cell3160,161
+cell4 cell4162,163
+cell4 cell4163,164
+cell5 cell5165,166
+cell5 cell5166,167
+cell6 cell6168,169
+cell6 cell6169,170
+cls cls171,172
+cls cls172,173
+cls2 cls2174,175
+cls2 cls2175,176
+cls3 cls3177,178
+cls3 cls3178,179
+w1 w1180,181
+w1 w1181,182
+col1 col1183,184
+col1 col1184,185
+col2 col2188,189
+col2 col2189,190
+col3 col3193,194
+col3 col3194,195
+w2 w2198,199
+w2 w2199,200
+tesrm tesrm201,202
+tesrm tesrm202,203
+tesup tesup206,207
+tesup tesup207,208
+tesmove tesmove211,212
+tesmove tesmove212,213
+
+./src/Graphics/Colors.hs,222
+module Graphics.Colors Graphics.Colors0,1
+color3f color3f4,5
+color3f color3f5,6
+red red7,8
+red red8,9
+green green10,11
+green green11,12
+blue blue13,14
+blue blue14,15
+black black16,17
+black black17,18
+
+./src/Graphics/Shapes.hs,721
+module Graphics.Shapes Graphics.Shapes0,1
+d2gl d2gl5,6
+d2gl d2gl6,7
+i2gl i2gl8,9
+i2gl i2gl9,10
+vertex3f vertex3f11,12
+vertex3f vertex3f12,13
+vertex3d vertex3d14,15
+vertex3d vertex3d15,16
+vertex3i vertex3i17,18
+vertex3i vertex3i18,19
+vertex2f vertex2f20,21
+vertex2f vertex2f21,22
+vertex2d vertex2d23,24
+vertex2d vertex2d24,25
+vertex2i vertex2i26,27
+vertex2i vertex2i27,28
+rectangle rectangle29,30
+rectangle rectangle30,31
+rectangleD rectangleD37,38
+rectangleD rectangleD38,39
+rectangleI rectangleI40,41
+rectangleI rectangleI41,42
+emptyRectangle emptyRectangle43,44
+emptyRectangle emptyRectangle44,45
+line line46,47
+line line47,48
+lineD lineD51,52
+lineD lineD52,53
+
+./src/Graphics/View.hs,740
+module Graphics.View Graphics.View0,1
+xStart xStart25,26
+xStart xStart26,27
+yStart yStart28,29
+yStart yStart29,30
+xEnd xEnd31,32
+xEnd xEnd32,33
+yEnd yEnd34,35
+yEnd yEnd35,36
+dx dx37,38
+dx dx38,39
+dy dy40,41
+dy dy41,42
+render render43,44
+render render44,45
+drawLattice drawLattice53,54
+drawLattice drawLattice54,55
+latticePoints latticePoints57,58
+latticePoints latticePoints58,59
+horizontalPoints horizontalPoints60,61
+horizontalPoints horizontalPoints61,62
+verticalPoints verticalPoints68,69
+verticalPoints verticalPoints69,70
+drawCells drawCells76,77
+drawCells drawCells77,78
+cell2rectangle cell2rectangle81,82
+cell2rectangle cell2rectangle82,83
+getXY getXY88,89
+getXY getXY89,90

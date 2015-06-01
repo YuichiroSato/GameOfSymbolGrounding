@@ -1,0 +1,12 @@
+module Main.Setting where
+
+import Foreign.C.Types
+
+xSize :: Int
+xSize = 10
+
+ySize :: Int
+ySize = 10
+
+wSize :: CInt
+wSize = 500
