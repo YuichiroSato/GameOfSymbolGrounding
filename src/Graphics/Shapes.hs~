@@ -1,4 +1,0 @@
-module Graphics.Shapes where
-
-import Graphics.UI.GLUT
-
