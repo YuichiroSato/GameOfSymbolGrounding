@@ -10,6 +10,11 @@ import System.Random
 data Colom = Colom (Vector.Vector [Cell]) deriving (Eq, Show) --row
 data World = World (Vector.Vector Colom) deriving (Eq, Show)
 
+margeWorld :: World -> World -> World
+margeWorld w1 w2 = foldl iter w2 xys
+  where
+    iter w (x, y) = insertCells w x y $ getCell w1 x y
+
 insert2Colom :: Colom -> Int -> Cell -> Colom
 insert2Colom (Colom col) x c = Colom $ col Vector.// diff
   where
@@ -21,6 +26,9 @@ insert2World (World cols) x y c = World $ cols Vector.// diff
   where
     diff = [(y, insert2Colom col x c)]
     col = cols Vector.! y
+
+insertCells :: World -> Int -> Int -> [Cell] -> World
+insertCells w x y cs = foldl (\ww c -> insert2World ww x y c) w cs
 
 getCell :: World -> Int -> Int -> [Cell]
 getCell (World cols) x y = col Vector.! x
@@ -40,13 +48,24 @@ deleteCell (World cols) x y c = World $ cols Vector.// diff
     diff = [(y, removeCell col x c)]
     col = cols Vector.! x
 
+replaceCell :: World -> Int -> Int -> Cell -> Cell -> World
+replaceCell w x y from to = insert2World (deleteCell w x y from) x y to
+
 overrideColom :: Colom -> Int -> Cell -> Colom
 overrideColom (Colom col) x c = Colom $ col Vector.// [(x, [c])]
+
+overrideColoms :: Colom -> Int -> [Cell] -> Colom
+overrideColoms (Colom col) x cs = Colom $ col Vector.// [(x, cs)]
 
 overrideCell :: World -> Int -> Int -> Cell -> World
 overrideCell (World cols) x y c = World $ cols Vector.// diff
   where
     diff = [(y, overrideColom (cols Vector.! y) x c)]
+
+overrideCells :: World -> Int -> Int -> [Cell] -> World
+overrideCells (World cols) x y cs = World $ cols Vector.// diff
+  where
+    diff = [(y, overrideColoms (cols Vector.! y) x cs)]
 
 initialize :: (RandomGen g) => g -> World
 initialize gen = foldl override emptyWorld cells
@@ -88,16 +107,46 @@ cellsSize :: World -> Int
 cellsSize w = List.length $ Map.toList $ getCells w
 
 update :: World -> World
-update w = removeDuplicateCells $ updateCells w
+update w = updateStrategy $ timeEvolution w
 
-updateCells :: World -> World
-updateCells w = moveAnimal $ makeBirth $ consumeCosts w
+timeEvolution :: World -> World
+timeEvolution w = removeDuplicateCells $ removeDeadCell $ makeBirth $ eatAnimal $ moveAnimal $ consumeCosts w
+
+updateStrategy :: World -> World
+updateStrategy w = w
 
 consumeCosts :: World -> World
-consumeCosts w = w
+consumeCosts w = foldl iter w xys
+  where
+    iter res (x, y) = overrideCells res x y cells
+      where
+        cells = map consume (getCell w x y)
 
 makeBirth :: World -> World
-makeBirth w = w
+makeBirth w = margeWorld payBirthCost bornWorld
+  where
+    payBirthCost = foldl iter2 w xys
+      where
+        pay c = if bornCheck c
+          then addLife c (-100)
+          else c
+        iter2 res (x, y) = overrideCells res x y $ map pay cells
+          where
+            cells = getCell w x y
+    bornWorld = foldl iter emptyWorld xys
+      where
+        iter res (x, y) = foldl insert res borns
+          where
+            insert ww mayc = case mayc of
+              Just c -> insert2World ww x y c
+              Nothing -> ww
+            borns = map makeBorn cells
+            cells = getCell w x y
+
+makeBorn :: Cell -> Maybe Cell
+makeBorn c = if not $ bornCheck c
+  then Nothing
+  else Just $ born c
 
 moveAnimal :: World -> World
 moveAnimal w = makeNewCols xys emptyWorld
@@ -118,6 +167,30 @@ oneStep w c@(Cell ext _) = insert2World w modx mody c
   where
     modx = (fst (xy ext)) `mod` xSize
     mody = (snd (xy ext)) `mod` ySize
+
+eatAnimal :: World -> World
+eatAnimal w = foldl iEat w xys
+
+iEat :: World -> (Int, Int) -> World
+iEat w (x, y)
+  | length carns == 1 && 0 < length herbs = overrideCells w x y [(addLife (head carns) (100 * (length herbs)))]
+  | length herbs == 1 && 0 < length plants =  overrideCells w x y [(addLife (head herbs) (100 * (length plants)))]
+  | otherwise = w
+    where
+      cells = getCell w x y
+      plants = pickType cells Plant
+      herbs = pickType cells Herbivore
+      carns = pickType cells Carnivore
+
+removeDeadCell :: World -> World
+removeDeadCell w = foldl removeDead w xys
+
+removeDead :: World -> (Int, Int) -> World
+removeDead w (x, y) = foldl iter w (getCell w x y)
+     where
+       iter res c@(Cell _ int) = if 0 < life int
+         then res
+         else replaceCell res x y c (emptyCell x y)
 
 removeDuplicateCells :: World -> World
 removeDuplicateCells w = removed xys w

@@ -16,3 +16,6 @@ blue = color3f 0 0 1
 
 black :: IO ()
 black = color3f 0 0 0
+
+gray :: IO ()
+gray = color3f 0.3 0.3 0.3

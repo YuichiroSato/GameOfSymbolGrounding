@@ -6,7 +6,7 @@ import Data.IORef
 import System.Random
 
 timeInterval :: Int
-timeInterval = 1000
+timeInterval = 100
 
 main :: IO ()
 main = do

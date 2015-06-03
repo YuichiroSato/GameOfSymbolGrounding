@@ -47,7 +47,7 @@ render w = do
   renderPrimitive Quads $ do
     drawCells (getCells w)
   renderPrimitive Lines $ do
-    green
+    gray
     drawLattice xSize ySize
   flush
 

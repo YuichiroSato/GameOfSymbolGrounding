@@ -35,8 +35,8 @@ her11 = herbivoreCell 1 1 2 2
 her11_2 = herbivoreCell 1 1 3 2
 her33 = herbivoreCell 3 3 2 2
 
-pla11 = plantCell 1 1
-pla11_2 = plantCell 1 1
+pla11 = plantCell 1 1 0 0
+pla11_2 = plantCell 1 1 0 0
 
 empty11 = emptyCell 1 1
 empty33 = emptyCell 3 3
@@ -87,6 +87,7 @@ privateTests = TestList (updateTest ++
                          moveTest ++
                          moveCellTest ++
                          removeDuplicateTest ++
+                         removeDeadTest ++
                          pickStrongestTest ++
                          containsTypeTest ++
                          resolveTests ++
@@ -109,6 +110,13 @@ moveTest =
 moveCellTest =
   [ "moveCell1" ~: (getCell (moveCell world1 (1, 1) emptyWorld) 1 1) ~?= [empty11],
     "moveCell2" ~: (getCell (moveCell world1 (1, 1) emptyWorld) 3 3) ~?= [car33, empty33]
+  ]
+
+dead11 = addLife (carnivoreCell 1 1 2 2) (-200)
+
+removeDeadTest =
+  [ "removeDead1" ~: removeDead emptyWorld (0,0) ~?= emptyWorld,
+    "removeDead2" ~: removeDead (insert2World emptyWorld 1 1 dead11) (1,1) ~?= emptyWorld
   ]
 
 removeDuplicateTest =
