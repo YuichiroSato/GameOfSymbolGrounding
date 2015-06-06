@@ -19,6 +19,7 @@ executable GameOfSymbolGrounding
   main-is:             Main/Main.hs
   other-modules:       Data.World
                        Data.Cell
+                       Update.TimeEvolution
                        Graphics.View
                        Main.Setting
   -- other-extensions:    

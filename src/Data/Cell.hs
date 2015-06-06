@@ -104,6 +104,13 @@ eat (c@(Cell (External Herbivore _ _) _), (Cell (External Plant xy2 _) _)) = (ad
 eat (c@(Cell (External Carnivore _ _) _), (Cell (External Herbivore xy2 _) _)) = (addLife c 100, emptyCell (fst xy2) (snd xy2))
 eat t = t
 
+eat2 :: Cell -> Cell -> [Cell]
+eat2 c@(Cell (External Herbivore _ _) _) (Cell (External Plant _ _) _) = [addLife c 100]
+eat2 c@(Cell (External Carnivore _ _) _) (Cell (External Herbivore _ _) _) = [addLife c 100]
+eat2 (Cell (External Plant _ _) _) c@(Cell (External Herbivore _ _) _) = [addLife c 100]
+eat2 (Cell (External Herbivore _ _) _) c@(Cell (External Carnivore _ _) _) = [addLife c 100]
+eat2 c1 c2 = [c1, c2]
+
 bornCheck :: Cell -> Bool
 bornCheck (Cell ext int)
   | cellType ext == Plant && 100 < life int = True
@@ -114,11 +121,21 @@ bornCheck (Cell ext int)
 born :: Cell -> Cell
 born (Cell ext int)
   | cellType ext == Plant = plantCell newx newy newvx newvy
-  | cellType ext == Herbivore = herbivoreCell newx newy newvx newvy
-  | cellType ext == Carnivore = carnivoreCell newx newy newvx newvy
+  | cellType ext == Herbivore = herbivoreCell x y newvx newvy
+  | cellType ext == Carnivore = carnivoreCell x y newvx newvy
   | otherwise = emptyCell newx newy
     where
-      newx = ((fst $ xy ext) + (vx int)) `mod` xSize
-      newy = ((snd $ xy ext) + (vy int)) `mod` ySize
+      x = fst $ xy ext
+      y = snd $ xy ext
+      newx = (x + (vx int)) `mod` xSize
+      newy = (y + (vy int)) `mod` ySize
       newvx = (-1 * (vx int))
       newvy = (-1 * (vy int))
+
+born2 :: Cell -> (Cell, Maybe Cell)
+born2 c = if bornCheck c
+  then (addLife c (-100), Just $ born c)
+  else (c, Nothing)
+
+isDead :: Cell -> Bool
+isDead (Cell _ int) = life int < 0

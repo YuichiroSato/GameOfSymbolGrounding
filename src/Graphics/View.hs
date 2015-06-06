@@ -45,7 +45,7 @@ render :: World -> DisplayCallback
 render w = do
   clear [ColorBuffer]
   renderPrimitive Quads $ do
-    drawCells (getCells w)
+    drawCells (toList w)
   renderPrimitive Lines $ do
     gray
     drawLattice xSize ySize
@@ -74,9 +74,9 @@ verticalPoints size = do
   let ep = (xEnd, y)
   return (sp, ep)
 
-drawCells :: (Map.Map (Int,Int) Cell) -> IO ()
+drawCells :: [((Int,Int), Cell)] -> IO ()
 drawCells cells = do
-  mapM_ (\(_,c) -> cell2rectangle c) $ Map.toList cells
+  mapM_ (\(_,c) -> cell2rectangle c) cells
   return ()
 
 cell2rectangle :: Cell -> IO ()

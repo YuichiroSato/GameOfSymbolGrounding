@@ -2,6 +2,7 @@ import Main.Setting
 import Graphics.UI.GLUT
 import qualified Graphics.View as View
 import qualified Data.World as World
+import qualified Update.TimeEvolution as TE
 import Data.IORef
 import System.Random
 
@@ -20,7 +21,7 @@ main = do
 
 display :: IORef World.World -> DisplayCallback
 display w = do
-  modifyIORef w World.update
+  modifyIORef w TE.evolve
   world <- readIORef w
   View.render world
   
