@@ -7,7 +7,6 @@ import Graphics.Shapes
 import Data.World
 import Data.Cell
 
-import qualified Data.Map as Map
 
 {--
 
@@ -84,7 +83,13 @@ cell2rectangle (Cell ext _) = rectangleD x y dx dy c
   where
     (x, y) = getXY cx cy
     (cx, cy) = xy ext
-    c = cellColor ext
+    c = cellColor2color (cellColor ext) (cellType ext)
+
+cellColor2color :: Int -> Type -> IO ()
+cellColor2color _ Empty = black
+cellColor2color _ Plant = green
+cellColor2color i Herbivore = aqua i
+cellColor2color i Carnivore = pink i
 
 getXY :: Int -> Int -> (Double, Double)
 getXY x y = (rx, ry)

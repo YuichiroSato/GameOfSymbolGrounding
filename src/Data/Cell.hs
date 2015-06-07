@@ -1,29 +1,47 @@
-module Data.Cell where
+module Data.Cell(
+  Cell(..),
+  Type(..),
+  External(..),
+  Internal(..),
+  isEmptyCell,
+  isPlant,
+  isHerbivore,
+  isCarnivore,
+  isDead,
+  emptyCell,
+  plant,
+  herbivore,
+  carnivore,
+  randomCell,
+  move,
+  consume,
+  birth,
+  eat,
+  resolve,
+  addLife
+  ) where
 
-import Graphics.Colors
-import Main.Setting
-import System.Random
+import Main.Setting (xSize, ySize)
+import System.Random (next, RandomGen)
 
-data Cell = Cell External Internal deriving (Eq)
-instance Show Cell where
-  show (Cell ext int) = (show ext) ++ " " ++ (show int)
-
+data Cell = Cell External Internal deriving (Eq, Show)
 data Type = Empty | Plant | Herbivore | Carnivore deriving (Eq, Enum, Show)
 data External = External {
   cellType :: Type,
   xy :: (Int, Int),
-  cellColor :: IO ()
-  }
-instance Eq External where
-  (==) a b = (cellType a) == (cellType b) && (xy a) == (xy b)
-instance Show External where
-  show e = "cellType " ++ (show $ cellType e) ++ ", xy " ++ (show $ xy e)
-
+  cellColor :: Int
+  } deriving (Eq, Show)
 data Internal = Internal {
   vx :: Int,
   vy :: Int,
   life :: Int
   } deriving (Eq, Show)
+
+x :: External -> Int
+x ext = fst $ xy ext
+
+y :: External -> Int
+y ext = snd $ xy ext
 
 isEmptyCell :: Cell -> Bool
 isEmptyCell (Cell ext _) = cellType ext == Empty
@@ -37,57 +55,60 @@ isHerbivore (Cell ext _) = cellType ext == Herbivore
 isCarnivore :: Cell -> Bool
 isCarnivore (Cell ext _) = cellType ext == Carnivore
 
-plantCell :: Int -> Int -> Int -> Int -> Cell
-plantCell x y _vx _vy = Cell (External Plant (x, y) green) (Internal _vx _vy 100)
+isDead :: Cell -> Bool
+isDead (Cell _ int) = life int < 0
 
-herbivoreCell :: Int -> Int -> Int -> Int -> Cell
-herbivoreCell x y _vx _vy = Cell (External Herbivore (x, y) blue) (Internal _vx _vy 100)
+plant :: Int -> Int -> Int -> Int -> Int -> Cell
+plant x0 y0 c _vx _vy = Cell (External Plant (x0, y0) c) (Internal _vx _vy 100)
 
-carnivoreCell :: Int -> Int -> Int -> Int -> Cell
-carnivoreCell x y _vx _vy = Cell (External Carnivore (x, y) red) (Internal _vx _vy 100)
+herbivore :: Int -> Int -> Int -> Int -> Int -> Cell
+herbivore x0 y0 c _vx _vy = Cell (External Herbivore (x0, y0) c) (Internal _vx _vy 100)
 
-randomCell :: (RandomGen g) => Int -> Int -> g -> (Cell, g)
-randomCell x y gen = (Cell ext int, nextGen)
-  where
-    ext = External t (x, y) c
-    int = randomInternal t r2 r3
-    (t, c) = randomType r1
-    (r1, r2, r3, nextGen) = makeRandom
-    makeRandom = (rr1, rr2, rr3, gen3)
-      where
-        (rr1, gen1) = next gen
-        (rr2, gen2) = next gen1
-        (rr3, gen3) = next gen2
-
-randomType :: Int -> (Type, IO ())
-randomType i = case i `mod` 7 of
-  0 -> (Empty, black)
-  1 -> (Plant, green)
-  2 -> (Herbivore, blue)
-  3 -> (Carnivore, red)
-  _ -> (Plant, green)
-
-randomInternal :: Type -> Int -> Int -> Internal
-randomInternal t rx ry = case t of
-  Empty -> Internal 0 0 1
-  Plant -> Internal ((rx `mod` 3) - 1) ((ry `mod` 3) - 1) 10
-  Herbivore -> Internal ((rx `mod` 5) - 2) ((ry `mod` 5) - 2) 100
-  Carnivore -> Internal ((rx `mod` 7) - 3) ((ry `mod` 7) - 3) 100
+carnivore :: Int -> Int -> Int -> Int -> Int -> Cell
+carnivore x0 y0 c _vx _vy = Cell (External Carnivore (x0, y0) c) (Internal _vx _vy 100)
 
 emptyCell :: Int -> Int -> Cell
-emptyCell x y = Cell (External Empty (x,y) black) (Internal 0 0 1)
+emptyCell x0 y0 = Cell (External Empty (x0,y0) 1) (Internal 0 0 1)
+
+randomCell :: (RandomGen g) => Int -> Int -> g -> (Cell, g)
+randomCell x0 y0 gen = (Cell ext int, newGen)
+  where
+    int = randomInternal t r2 r3
+    ext@(External t _ _) = randomExternal r1 (x0, y0) r4
+    (r1, gen1) = next gen
+    (r2, gen2) = next gen1
+    (r3, gen3) = next gen2
+    (r4, gen4) = next gen3
+    newGen = gen4
+
+randomExternal :: Int -> (Int, Int) -> Int -> External
+randomExternal i xy0 c = case i `mod` 7 of
+  0 -> External Empty xy0 10
+  1 -> External Plant xy0 10
+  2 -> External Herbivore xy0 c
+  3 -> External Carnivore xy0 c
+  _ -> External Plant xy0 10
+
+randomInternal :: Type -> Int -> Int -> Internal
+randomInternal t rvx rvy = case t of
+  Empty -> Internal 0 0 1
+  Plant -> Internal ((rvx `mod` 5) - 2) ((rvy `mod` 5) - 2) 10
+  Herbivore -> Internal ((rvx `mod` 5) - 2) ((rvy `mod` 5) - 2) 100
+  Carnivore -> Internal ((rvx `mod` 7) - 3) ((rvy `mod` 7) - 3) 100
 
 move :: Cell -> Cell
 move c@(Cell ext int)
-  | cellType ext == Herbivore || cellType ext == Carnivore = Cell (External (cellType ext) newxy (cellColor ext)) int
+  | isMovable ext = setXY c newx newy
   | otherwise = c
     where
-      newxy = (newx, newy)
-      newx = ((fst $ xy ext) + vx int) `mod` xSize
-      newy = ((snd $ xy ext) + vy int) `mod` ySize
+      newx = (x ext + vx int) `mod` xSize
+      newy = (y ext + vy int) `mod` ySize
 
-moveTo :: Cell -> Int -> Int -> Cell
-moveTo (Cell ext int) x y = Cell (External (cellType ext) (x, y) (cellColor ext)) int
+isMovable :: External -> Bool
+isMovable ext = cellType ext == Herbivore || cellType ext == Carnivore
+
+setXY :: Cell -> Int -> Int -> Cell
+setXY (Cell (External t _ c) int) x0 y0 = Cell (External t (x0, y0) c) int
 
 addLife :: Cell -> Int -> Cell
 addLife (Cell ext int) l = Cell ext (Internal (vx int) (vy int) (l + (life int)))
@@ -99,43 +120,52 @@ consume c@(Cell ext _) = case cellType ext of
   Herbivore -> addLife c (-1)
   Carnivore -> addLife c (-2)
 
-eat :: (Cell, Cell) -> (Cell, Cell)
-eat (c@(Cell (External Herbivore _ _) _), (Cell (External Plant xy2 _) _)) = (addLife c 100, emptyCell (fst xy2) (snd xy2))
-eat (c@(Cell (External Carnivore _ _) _), (Cell (External Herbivore xy2 _) _)) = (addLife c 100, emptyCell (fst xy2) (snd xy2))
-eat t = t
+eat :: [Cell] -> [Cell]
+eat cs
+  | length carns == 1 && 0 < length herbs = [(addLife (head carns) (100 * (length herbs)))]
+  | length herbs == 1 && 0 < length plants = [(addLife (head herbs) (100 * (length plants)))]
+  | otherwise = cs
+    where
+      plants = pickType cs Plant
+      herbs = pickType cs Herbivore
+      carns = pickType cs Carnivore
 
-eat2 :: Cell -> Cell -> [Cell]
-eat2 c@(Cell (External Herbivore _ _) _) (Cell (External Plant _ _) _) = [addLife c 100]
-eat2 c@(Cell (External Carnivore _ _) _) (Cell (External Herbivore _ _) _) = [addLife c 100]
-eat2 (Cell (External Plant _ _) _) c@(Cell (External Herbivore _ _) _) = [addLife c 100]
-eat2 (Cell (External Herbivore _ _) _) c@(Cell (External Carnivore _ _) _) = [addLife c 100]
-eat2 c1 c2 = [c1, c2]
+pickType :: [Cell] -> Type -> [Cell]
+pickType css t = filter (\(Cell ext _) -> cellType ext == t) css
+
+birth :: Cell -> (Cell, Maybe Cell)
+birth c = if bornCheck c
+  then (payBirthCost c, Just $ bornCell c)
+  else (c, Nothing)
 
 bornCheck :: Cell -> Bool
 bornCheck (Cell ext int)
-  | cellType ext == Plant && 100 < life int = True
-  | cellType ext == Herbivore && 100 < life int = True
-  | cellType ext == Carnivore && 100 < life int = True
+  | cellType ext == Plant = 100 < life int
+  | cellType ext == Herbivore = 100 < life int
+  | cellType ext == Carnivore = 100 < life int
   | otherwise = False
 
-born :: Cell -> Cell
-born (Cell ext int)
-  | cellType ext == Plant = plantCell newx newy newvx newvy
-  | cellType ext == Herbivore = herbivoreCell x y newvx newvy
-  | cellType ext == Carnivore = carnivoreCell x y newvx newvy
+payBirthCost :: Cell -> Cell
+payBirthCost c = addLife c (-100)
+
+bornCell :: Cell -> Cell
+bornCell (Cell ext int)
+  | cellType ext == Plant = plant newx newy newc newvx newvy
+  | cellType ext == Herbivore = herbivore x0 y0 newc newvx newvy
+  | cellType ext == Carnivore = carnivore x0 y0 newc newvx newvy
   | otherwise = emptyCell newx newy
     where
-      x = fst $ xy ext
-      y = snd $ xy ext
-      newx = (x + (vx int)) `mod` xSize
-      newy = (y + (vy int)) `mod` ySize
+      x0 = x ext
+      y0 = y ext
+      newx = (x0 + vx int) `mod` xSize
+      newy = (y0 + vy int) `mod` ySize
       newvx = (-1 * (vx int))
       newvy = (-1 * (vy int))
+      newc = cellColor ext
 
-born2 :: Cell -> (Cell, Maybe Cell)
-born2 c = if bornCheck c
-  then (addLife c (-100), Just $ born c)
-  else (c, Nothing)
-
-isDead :: Cell -> Bool
-isDead (Cell _ int) = life int < 0
+resolve :: [Cell] -> [Cell]
+resolve cs
+  | length bios == 1 = bios
+  | otherwise = []
+    where
+      bios = filter (\c -> not $ isEmptyCell c) cs
