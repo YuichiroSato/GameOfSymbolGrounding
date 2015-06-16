@@ -17,12 +17,13 @@ module Data.Cell(
   consume,
   birth,
   eat,
-  resolve,
-  addLife
+  resolve
   ) where
 
+import Control.Monad.State (runState)
 import Main.Setting (xSize, ySize)
-import System.Random (next, RandomGen)
+import Data.RandomState (rand4)
+import System.Random (RandomGen)
 
 data Cell = Cell External Internal deriving (Eq, Show)
 data Type = Empty | Plant | Herbivore | Carnivore deriving (Eq, Enum, Show)
@@ -75,11 +76,7 @@ randomCell x0 y0 gen = (Cell ext int, newGen)
   where
     int = randomInternal t r2 r3
     ext@(External t _ _) = randomExternal r1 (x0, y0) r4
-    (r1, gen1) = next gen
-    (r2, gen2) = next gen1
-    (r3, gen3) = next gen2
-    (r4, gen4) = next gen3
-    newGen = gen4
+    ((r1, r2, r3, r4), newGen) = runState rand4 gen
 
 randomExternal :: Int -> (Int, Int) -> Int -> External
 randomExternal i xy0 c = case i `mod` 7 of

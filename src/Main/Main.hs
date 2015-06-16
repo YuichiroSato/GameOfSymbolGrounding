@@ -1,10 +1,10 @@
-import Main.Setting
+import Main.Setting (wSize)
 import Graphics.UI.GLUT
-import qualified Graphics.View as View
+import Graphics.View (render)
 import qualified Data.World as World
-import qualified Update.TimeEvolution as TE
-import Data.IORef
-import System.Random
+import Update.TimeEvolution (evolve)
+import Data.IORef (IORef, newIORef, modifyIORef, readIORef)
+import System.Random (getStdGen)
 
 timeInterval :: Int
 timeInterval = 100
@@ -13,7 +13,8 @@ main :: IO ()
 main = do
   (_progName, _args) <- getArgsAndInitialize
   initialWindowSize $= Size wSize wSize
-  world <- newIORef $ World.initialize $ mkStdGen 12
+  gen <- getStdGen
+  world <- newIORef $ World.initialize gen
   createWindow "Game of Symbol Grounding"
   displayCallback $= display world
   addTimerCallback timeInterval $ timer $ display world
@@ -21,9 +22,9 @@ main = do
 
 display :: IORef World.World -> DisplayCallback
 display w = do
-  modifyIORef w TE.evolve
+  modifyIORef w evolve
   world <- readIORef w
-  View.render world
+  render world
   
 timer :: DisplayCallback -> IO ()
 timer act = do

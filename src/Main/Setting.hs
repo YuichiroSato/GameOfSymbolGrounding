@@ -9,4 +9,4 @@ ySize :: Int
 ySize = 100
 
 wSize :: CInt
-wSize = 500
+wSize = 600

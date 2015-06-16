@@ -1,4 +1,10 @@
-module Graphics.Shapes where
+module Graphics.Shapes(
+  rectangle,
+  rectangleD,
+  rectangleI,
+  emptyRectangle,
+  line,
+  lineD) where
 
 import Graphics.UI.GLUT
 import Graphics.Colors

@@ -1,4 +1,4 @@
-module Graphics.View where
+module Graphics.View(render) where
 
 import Main.Setting
 import Graphics.UI.GLUT

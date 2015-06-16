@@ -34,21 +34,21 @@ toCellList w = foldl' hoge [] xys
   where
     hoge res (x, y) = (readCell w x y) : res
 
+emptyWorld :: World
+emptyWorld = World $ Vector.fromList $ [(emptyRow y) | y <- [0..(ySize - 1)]]
+
+emptyRow :: Int -> Row
+emptyRow y = Row $ Vector.fromList $ [(emptyCell x y) | x <- [0..(xSize - 1)]]
+
 initialize :: (RandomGen g) => g -> World
 initialize gen = foldl override emptyWorld cells
   where
     override w ((x, y), c) = writeCell w x y c
-    cells = recMakeCell xys gen []
+    cells = iMakeCell xys gen []
 
-emptyWorld :: World
-emptyWorld = World $ Vector.fromList $ [(emptyColom y) | y <- [0..(ySize - 1)]]
-
-emptyColom :: Int -> Row
-emptyColom y = Row $ Vector.fromList $ [(emptyCell x y) | x <- [0..(xSize - 1)]]
-
-recMakeCell :: (RandomGen g) => [(Int, Int)] -> g -> [((Int, Int), Cell)] -> [((Int, Int), Cell)]
-recMakeCell [] _ res = res
-recMakeCell (x:xs) gen res = recMakeCell xs gen2 ((x,c) : res)
+iMakeCell :: (RandomGen g) => [(Int, Int)] -> g -> [((Int, Int), Cell)] -> [((Int, Int), Cell)]
+iMakeCell [] _ res = res
+iMakeCell (x:xs) gen res = iMakeCell xs gen2 ((x,c) : res)
   where
     (c, gen2) = randomCell (fst x) (snd x) gen
 

@@ -1,4 +1,11 @@
-module Graphics.Colors where
+module Graphics.Colors(
+  red,
+  pink,
+  green,
+  blue,
+  aqua,
+  black,
+  gray) where
 
 import Graphics.UI.GLUT
 

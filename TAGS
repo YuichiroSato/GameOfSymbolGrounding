@@ -1,4 +1,138 @@
 
+./test/DataTest/WorldTest.hs,1576
+car00 car008,9
+car01 car019,10
+car02 car0210,11
+car03 car0311,12
+car04 car0412,13
+car05 car0513,14
+car10 car1015,16
+car11 car1116,17
+car11_2 car11_217,18
+car12 car1218,19
+car13 car1319,20
+car14 car1420,21
+car15 car1521,22
+car20 car2023,24
+car21 car2124,25
+car22 car2225,26
+car23 car2326,27
+car24 car2427,28
+car25 car2528,29
+car33 car3330,31
+car34_2 car34_231,32
+her11 her1133,34
+her11_2 her11_234,35
+her33 her3335,36
+pla11 pla1137,38
+pla11_2 pla11_238,39
+empty11 empty1140,41
+empty33 empty3341,42
+world1 world143,44
+world1 world144,45
+world2 world246,47
+world2 world247,48
+carxy carxy49,50
+world3 world351,52
+world3 world352,53
+tests tests54,55
+cells1 cells159,60
+cells2 cells260,61
+cells3 cells361,62
+cells4 cells462,63
+cells5 cells563,64
+cells6 cells664,65
+cells7 cells765,66
+cells8 cells866,67
+cells9 cells967,68
+publicTests publicTests69,70
+smallColom1 smallColom171,72
+smallColom2 smallColom272,73
+smallColom3 smallColom373,74
+smallWorld1 smallWorld175,76
+insert2ColomTest insert2ColomTest77,78
+insert2WorldTest insert2WorldTest81,82
+privateTests privateTests85,86
+updateTest updateTest95,96
+moveTest moveTest101,102
+moveCellTest moveCellTest109,110
+dead11 dead11114,115
+removeDeadTest removeDeadTest116,117
+removeDuplicateTest removeDuplicateTest121,122
+pickStrongestTest pickStrongestTest128,129
+containsTypeTest containsTypeTest138,139
+pickTypeTests pickTypeTests144,145
+resolveTests resolveTests152,153
+main main164,165
+main main165,166
+
+./test/DataTest/CellTest.hs,1576
+car00 car008,9
+car01 car019,10
+car02 car0210,11
+car03 car0311,12
+car04 car0412,13
+car05 car0513,14
+car10 car1015,16
+car11 car1116,17
+car11_2 car11_217,18
+car12 car1218,19
+car13 car1319,20
+car14 car1420,21
+car15 car1521,22
+car20 car2023,24
+car21 car2124,25
+car22 car2225,26
+car23 car2326,27
+car24 car2427,28
+car25 car2528,29
+car33 car3330,31
+car34_2 car34_231,32
+her11 her1133,34
+her11_2 her11_234,35
+her33 her3335,36
+pla11 pla1137,38
+pla11_2 pla11_238,39
+empty11 empty1140,41
+empty33 empty3341,42
+world1 world143,44
+world1 world144,45
+world2 world246,47
+world2 world247,48
+carxy carxy49,50
+world3 world351,52
+world3 world352,53
+tests tests54,55
+cells1 cells159,60
+cells2 cells260,61
+cells3 cells361,62
+cells4 cells462,63
+cells5 cells563,64
+cells6 cells664,65
+cells7 cells765,66
+cells8 cells866,67
+cells9 cells967,68
+publicTests publicTests69,70
+smallColom1 smallColom171,72
+smallColom2 smallColom272,73
+smallColom3 smallColom373,74
+smallWorld1 smallWorld175,76
+insert2ColomTest insert2ColomTest77,78
+insert2WorldTest insert2WorldTest81,82
+privateTests privateTests85,86
+updateTest updateTest95,96
+moveTest moveTest101,102
+moveCellTest moveCellTest109,110
+dead11 dead11114,115
+removeDeadTest removeDeadTest116,117
+removeDuplicateTest removeDuplicateTest121,122
+pickStrongestTest pickStrongestTest128,129
+containsTypeTest containsTypeTest138,139
+pickTypeTests pickTypeTests144,145
+resolveTests resolveTests152,153
+main main164,165
+main main165,166
+
 ./test/TestMain.hs,1576
 car00 car008,9
 car01 car019,10
@@ -112,84 +246,93 @@ timeInterval timeInterval8,9
 timeInterval timeInterval9,10
 main main11,12
 main main12,13
-display display21,22
 display display22,23
-timer timer27,28
+display display23,24
 timer timer28,29
+timer timer29,30
 
-./src/Data/Cell.hs,1880
+./src/Data/RandomState.hs,160
+module Data.RandomState Data.RandomState0,1
+rand rand5,6
+rand rand6,7
+randInt randInt12,13
+randInt randInt13,14
+rand4 rand419,20
+rand4 rand420,21
+
+./src/Data/Cell.hs,1879
 module Data.Cell(Data.Cell0,1
-data Cell Cell26,27
-data Cell = Cell Cell26,27
-data Type Type27,28
-data Type = Empty Empty27,28
-data Type = Empty | Plant Plant27,28
-data Type = Empty | Plant | Herbivore Herbivore27,28
-data Type = Empty | Plant | Herbivore | Carnivore Carnivore27,28
-data External External28,29
-data External = External External28,29
-  cellType cellType29,30
-  xy xy30,31
-  cellColor cellColor31,32
-data Internal Internal33,34
-data Internal = Internal Internal33,34
-  vx vx34,35
-  vy vy35,36
-  life life36,37
-x x39,40
+data Cell Cell27,28
+data Cell = Cell Cell27,28
+data Type Type28,29
+data Type = Empty Empty28,29
+data Type = Empty | Plant Plant28,29
+data Type = Empty | Plant | Herbivore Herbivore28,29
+data Type = Empty | Plant | Herbivore | Carnivore Carnivore28,29
+data External External29,30
+data External = External External29,30
+  cellType cellType30,31
+  xy xy31,32
+  cellColor cellColor32,33
+data Internal Internal34,35
+data Internal = Internal Internal34,35
+  vx vx35,36
+  vy vy36,37
+  life life37,38
 x x40,41
-y y42,43
+x x41,42
 y y43,44
-isEmptyCell isEmptyCell45,46
+y y44,45
 isEmptyCell isEmptyCell46,47
-isPlant isPlant48,49
+isEmptyCell isEmptyCell47,48
 isPlant isPlant49,50
-isHerbivore isHerbivore51,52
+isPlant isPlant50,51
 isHerbivore isHerbivore52,53
-isCarnivore isCarnivore54,55
+isHerbivore isHerbivore53,54
 isCarnivore isCarnivore55,56
-isDead isDead57,58
+isCarnivore isCarnivore56,57
 isDead isDead58,59
-plant plant60,61
+isDead isDead59,60
 plant plant61,62
-herbivore herbivore63,64
+plant plant62,63
 herbivore herbivore64,65
-carnivore carnivore66,67
+herbivore herbivore65,66
 carnivore carnivore67,68
-emptyCell emptyCell69,70
+carnivore carnivore68,69
 emptyCell emptyCell70,71
-randomCell randomCell72,73
+emptyCell emptyCell71,72
 randomCell randomCell73,74
-randomExternal randomExternal83,84
-randomExternal randomExternal84,85
-randomInternal randomInternal91,92
-randomInternal randomInternal92,93
-move move98,99
-move move99,100
-isMovable isMovable106,107
-isMovable isMovable107,108
-setXY setXY109,110
-setXY setXY110,111
-addLife addLife112,113
-addLife addLife113,114
-consume consume115,116
-consume consume116,117
-eat eat122,123
-eat eat123,124
-pickType pickType132,133
-pickType pickType133,134
-birth birth135,136
-birth birth136,137
-bornCheck bornCheck140,141
-bornCheck bornCheck141,142
-payBirthCost payBirthCost147,148
-payBirthCost payBirthCost148,149
-bornCell bornCell150,151
-bornCell bornCell151,152
-resolve resolve165,166
-resolve resolve166,167
+randomCell randomCell74,75
+randomExternal randomExternal80,81
+randomExternal randomExternal81,82
+randomInternal randomInternal88,89
+randomInternal randomInternal89,90
+move move95,96
+move move96,97
+isMovable isMovable103,104
+isMovable isMovable104,105
+setXY setXY106,107
+setXY setXY107,108
+addLife addLife109,110
+addLife addLife110,111
+consume consume112,113
+consume consume113,114
+eat eat119,120
+eat eat120,121
+pickType pickType129,130
+pickType pickType130,131
+birth birth132,133
+birth birth133,134
+bornCheck bornCheck137,138
+bornCheck bornCheck138,139
+payBirthCost payBirthCost144,145
+payBirthCost payBirthCost145,146
+bornCell bornCell147,148
+bornCell bornCell148,149
+resolve resolve162,163
+resolve resolve163,164
 
-./src/Data/World.hs,752
+./src/Data/World.hs,736
 module Data.World(Data.World0,1
 data Row Row16,17
 data Row = Row Row16,17
@@ -201,14 +344,14 @@ toList toList26,27
 toList toList27,28
 toCellList toCellList31,32
 toCellList toCellList32,33
-initialize initialize36,37
-initialize initialize37,38
-emptyWorld emptyWorld42,43
-emptyWorld emptyWorld43,44
-emptyColom emptyColom45,46
-emptyColom emptyColom46,47
-recMakeCell recMakeCell48,49
-recMakeCell recMakeCell49,50
+emptyWorld emptyWorld36,37
+emptyWorld emptyWorld37,38
+emptyRow emptyRow39,40
+emptyRow emptyRow40,41
+initialize initialize42,43
+initialize initialize43,44
+iMakeCell iMakeCell48,49
+iMakeCell iMakeCell49,50
 xys xys54,55
 xys xys55,56
 writeCell writeCell57,58

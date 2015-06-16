@@ -27,6 +27,7 @@ executable GameOfSymbolGrounding
                        containers >= 0.3 && <0.6,
                        array >= 0.4 && <0.5,
                        GLUT >=2.4 && <2.5,
+                       monads-tf >= 0.1 && < 0.2,
                        random >= 1.0 && < 1.2,
                        vector >= 0.10 && < 0.11
   hs-source-dirs:      src
@@ -37,6 +38,7 @@ Test-Suite UnitTest
   main-is:             TestMain.hs
   other-modules:       Data.World
                        Data.Cell
+                       DataTest.CellTest,
                        Graphics.View
                        Main.Setting
   hs-source-dirs:      src, test
@@ -46,5 +48,6 @@ Test-Suite UnitTest
                        containers >= 0.3 && <0.6,
                        array >= 0.4 && <0.5,
                        GLUT >=2.4 && <2.5,
+                       monads-tf >= 0.1 && < 0.2,
                        random >= 1.0 && < 1.2,
                        vector >= 0.10 && < 0.11
